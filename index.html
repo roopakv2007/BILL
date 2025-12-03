@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice Generator - GM TAILORS</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+
+<body>
+    <!-- Dynamic Form Section -->
+    <div class="form-container" id="formContainer">
+        <div class="form-header">
+            <h2 class="form-title" data-lang-en="📝 Create Invoice" data-lang-ta="📝 பில் உருவாக்கவும்">📝 Create
+                Invoice</h2>
+            <button type="button" class="btn-language" id="languageToggle">
+                <span id="langText">தமிழ்</span>
+            </button>
+        </div>
+
+        <form id="invoiceForm">
+            <!-- Customer Details -->
+            <div class="form-section">
+                <h3 data-lang-en="Customer Details" data-lang-ta="வாடிக்கையாளர் விவரங்கள்">Customer Details</h3>
+                <div class="form-group">
+                    <label for="customerName" data-lang-en="Customer Name:" data-lang-ta="வாடிக்கையாளர் பெயர்:">Customer
+                        Name:</label>
+                    <input type="text" id="customerName" name="customerName" required>
+                </div>
+                <div class="form-group">
+                    <label for="phoneNumber" data-lang-en="Phone Number:" data-lang-ta="தொலைபேசி எண்:">Phone
+                        Number:</label>
+                    <input type="tel" id="phoneNumber" name="phoneNumber" required>
+                </div>
+            </div>
+
+            <!-- Dynamic Items Section -->
+            <div class="form-section">
+                <h3 data-lang-en="Items" data-lang-ta="பொருட்கள்">Items</h3>
+                <div class="form-group">
+                    <label for="numItems" data-lang-en="Number of Items:" data-lang-ta="பொருட்களின் எண்ணிக்கை:">Number
+                        of Items:</label>
+                    <input type="number" id="numItems" name="numItems" min="1" max="15" value="1" required>
+                </div>
+
+                <div id="itemsContainer" class="items-container">
+                    <!-- Dynamic item rows will be generated here -->
+                </div>
+            </div>
+
+            <!-- Total Display -->
+            <div class="form-section total-section">
+                <div class="total-display">
+                    <strong data-lang-en="Total Amount:" data-lang-ta="மொத்த தொகை:">Total Amount:</strong>
+                    <span id="formTotal">₹0.00</span>
+                </div>
+                <div class="total-words">
+                    <strong data-lang-en="In Words:" data-lang-ta="வார்த்தைகளில்:">In Words:</strong>
+                    <span id="formTotalWords" data-lang-en="Zero Rupees Only"
+                        data-lang-ta="பூஜ்ஜியம் ரூபாய் மட்டும்">Zero Rupees Only</span>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn-submit" data-lang-en="Generate Invoice"
+                data-lang-ta="பில் உருவாக்கவும்">Generate Invoice</button>
+        </form>
+    </div>
+
+    <!-- Invoice Template Section -->
+    <div class="invoice-container" id="invoiceTemplate" style="display: none;">
+        <!-- Top Left Corner Decoration -->
+        <div class="corner-shape-red"></div>
+        <div class="corner-shape-black"></div>
+
+        <header>
+            <img padding="1000px 1000px 1000px 1000px" width="70px" src="vin.jpg"><br>
+            <div class="company-header">
+                <img class="company-logo" height="80px" src="logo.png">
+                <h1 class="company-name">GM TAILORS</h1>
+            </div>
+            <div class="address-details">
+                <p><b>ஸ்ரீ முனிஸ்வரர் துணை</b></p>
+                <p>Plot no 62,3rd cross street,bethel garden,anna nagar,morai chennai-55</p>
+                <p>9043943533, 9003770263</p>
+                <p>GMtailor9021@gmail.com</p>
+            </div>
+        </header>
+        <h4>Customer Details:</h4>
+        <section class="invoice-details">
+            <div class="customer-info">
+                <div class="row">
+                    <span class="label">Name :</span>
+                    <span class="value" id="displayCustomerName"
+                        style="border-bottom: 1px dotted #ccc; display: inline-block; width: 100%;"></span>
+                </div>
+
+                <div class="row">
+                    <span class="label">Phone Number :</span>
+                    <span class="value" id="displayPhoneNumber"
+                        style="border-bottom: 1px dotted #ccc; display: inline-block; width: 100%;"></span>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="items-table-section">
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th class="col-sl">Sl.No.</th>
+                        <th class="col-desc">Description</th>
+                        <th class="col-qty">Qty.</th>
+                        <th class="col-rate">Rate</th>
+                        <th class="col-amount">Amount</th>
+                    </tr>
+                </thead>
+                <tbody id="invoiceTableBody">
+                    <!-- Rows will be generated dynamically -->
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" class="total-label">Total</td>
+                        <td class="total-amount" id="displayTotal"></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+
+        <section class="footer-section">
+            <div class="amount-words">
+                <span class="label">Rupees in words :</span>
+                <span class="value" id="displayTotalWords"></span>
+            </div>
+            <div class="terms-signature">
+                <div class="terms">
+                    <p class="label">Online Payment :</p>
+                    <div class="gpay-container">
+                        <img src="gpay.png" alt="Google Pay QR Code" class="gpay-image">
+                    </div>
+                </div>
+        </section>
+
+        <!-- Bottom Right Corner Decoration -->
+        <div class="corner-shape-red-br"></div>
+        <div class="corner-shape-black-br"></div>
+    </div>
+
+    <!-- Download Button (shown after invoice generation) -->
+    <div class="download-container" id="downloadContainer" style="display: none;">
+        <button class="btn-download" id="downloadBtn" data-lang-en="📥 Download Invoice as Image"
+            data-lang-ta="📥 பில்லை படமாக பதிவிறக்கவும்">📥 Download Invoice as Image</button>
+        <button class="btn-new" id="newInvoiceBtn" data-lang-en="📝 Create New Invoice"
+            data-lang-ta="📝 புதிய பில் உருவாக்கவும்">📝 Create New Invoice</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
